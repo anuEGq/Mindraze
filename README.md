@@ -159,3 +159,5 @@ Measured against the production build on the development machine:
 
 Animations respect `prefers-reduced-motion`. Smooth scrolling and GSAP load only on large,
 fine-pointer screens, and touch devices keep native scrolling.
+
+[![Architecture diagram of /mindraze](https://gitdiagram.com/anuegq/mindraze/diagram.png)](https://gitdiagram.com/anuegq/mindraze?utm_source=readme&utm_medium=picture)
