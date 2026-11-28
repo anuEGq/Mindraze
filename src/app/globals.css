@@ -135,7 +135,8 @@
   padding-block: clamp(5rem, 11vw, 10rem);
 }
 @utility text-display {
-  font-size: clamp(2.9rem, 8.4vw, 9.5rem);
+  /* Height-capped too, so the hero still fits on wide-but-short laptop screens */
+  font-size: clamp(2.9rem, min(8.4vw, 13svh), 9.5rem);
   font-weight: 600;
   letter-spacing: -0.045em;
   line-height: 0.92;
@@ -239,19 +240,20 @@
     transform: none;
   }
 
-  /* Image mask reveal */
-  html.js [data-mask] {
+  /* Image mask reveal. The clip sits on the inner .mask-clip layer, never on the
+     observed [data-mask] element (a self-clipped target never intersects). */
+  html.js [data-mask] > .mask-clip {
     clip-path: inset(var(--mask-from, 100% 0 0 0));
     transition: clip-path 1.4s var(--ease-in-out-quart);
     transition-delay: var(--delay, 0ms);
   }
-  html.js [data-mask] > * {
+  html.js [data-mask] > .mask-clip > * {
     transform: scale(1.18);
     transition: transform 1.8s var(--ease-out-expo);
     transition-delay: var(--delay, 0ms);
   }
-  html.js [data-mask].is-in { clip-path: inset(0 0 0 0); }
-  html.js [data-mask].is-in > * { transform: scale(1); }
+  html.js [data-mask].is-in > .mask-clip { clip-path: inset(0 0 0 0); }
+  html.js [data-mask].is-in > .mask-clip > * { transform: scale(1); }
 
   /* Word-split headings */
   html.js [data-split] .w > span {

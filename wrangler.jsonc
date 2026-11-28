@@ -1,0 +1,21 @@
+// Cloudflare Workers configuration (built with @opennextjs/cloudflare). See README > Deployment on Cloudflare.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mindraze",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-06-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "mindraze" }],
+  // next/image optimisation through Cloudflare Images (free monthly allowance covers this site).
+  "images": { "binding": "IMAGES" },
+  // Live domain (zone on this Cloudflare account). www redirects to the bare domain (next.config.ts).
+  "routes": [
+    { "pattern": "mindrazeglobal.com", "custom_domain": true },
+    { "pattern": "www.mindrazeglobal.com", "custom_domain": true }
+  ],
+  "observability": { "enabled": true }
+}

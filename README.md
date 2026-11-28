@@ -97,29 +97,25 @@ cross-page links can use `?interest=<option>`.
 
 > The enquiry log contains personal data. Keep `ENQUIRY_LOG_DIR` outside the web root and back it up.
 
-## Deployment on Netlify (client preview)
+## Deployment on Cloudflare Workers (live site)
 
-`netlify.toml` is included, and Netlify installs its Next.js adapter automatically. From this folder:
+The live site runs on Cloudflare Workers through [`@opennextjs/cloudflare`](https://opennext.js.org/cloudflare)
+(`wrangler.jsonc`, `open-next.config.ts`, `public/_headers`). From this folder:
 
 ```bash
-npx netlify-cli login        # once, opens the browser
-npx netlify-cli deploy --prod   # builds locally, then uploads to the linked project
+npx wrangler login      # once, opens the browser
+npm run cf:preview      # optional: build and run in the Workers runtime at http://localhost:8787
+npm run cf:deploy       # build locally and deploy the "mindraze" worker
 ```
 
-The project is linked to the Netlify project `mindraze-preview` (https://mindraze-preview.netlify.app)
-through `.netlify/state.json`. To create a different project, run `npx netlify-cli link` or
-`npx netlify-cli sites:create` first and deploy afterwards: creating the project inside `deploy`
-(`--site-name`) fails at "Uploading blobs" because that build starts without a site ID.
-
-Or push the project to GitHub and use **Add new project > Import an existing project** in Netlify.
-
-- `SITE_NOINDEX=true` in `netlify.toml` keeps the preview out of search engines. Remove it for the live site.
-- Canonical and sharing URLs use Netlify's site URL unless `NEXT_PUBLIC_SITE_URL` is set.
-- Netlify functions can't write to disk. Without `RESEND_API_KEY`/`ENQUIRY_TO_EMAIL` or `ENQUIRY_WEBHOOK_URL`,
-  enquiries still succeed but are only printed to **Logs > Functions** in the Netlify dashboard.
-- Environment variables go in **Project configuration > Environment variables**. Redeploy after changing them.
-- Free `*.netlify.app` sites get a promotional HTML comment injected into `<head>`. The inline script in
-  `src/app/layout.tsx` removes it before React hydrates; without that, every page logs React error #418.
+- The build reads `.env` and embeds its values in the worker, so `NEXT_PUBLIC_*`, Resend and enquiry
+  settings come from `.env` on the machine that deploys. Change `.env`, then deploy again.
+- Pages are prerendered and served from the read-only static-assets cache: content changes need a deploy.
+- Images go through the Cloudflare Images binding (`IMAGES`); the free monthly allowance covers this site.
+- Security headers for static files are in `public/_headers`; pages get them from `next.config.ts`.
+- Workers can't keep files, so enquiries are delivered by email (Resend) and/or `ENQUIRY_WEBHOOK_URL` only.
+- `opennextjs-cloudflare` warns that Cache Components are not fully supported yet. Every page,
+  the 404 page, images, headers and the enquiry API were checked in `npm run cf:preview`; recheck after upgrades.
 
 ## Deployment (Node behind Apache)
 

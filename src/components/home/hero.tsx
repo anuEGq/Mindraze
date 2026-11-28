@@ -44,7 +44,7 @@ export function HomeHero() {
       </div>
       {/* Keeps the headline legible where it overlaps the bull */}
       <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[62%] bg-gradient-to-t from-ink via-ink/75 to-transparent lg:inset-y-0 lg:right-auto lg:h-auto lg:w-[72%] lg:bg-gradient-to-r lg:from-ink lg:via-ink/70 lg:to-transparent" />
-      <div className="container-x relative z-10 mt-auto pt-[52svh] pb-8 sm:pt-[50svh] lg:pt-48 lg:pb-12">
+      <div className="container-x relative z-10 mt-auto pt-[52svh] pb-8 sm:pt-[50svh] lg:pt-[clamp(7rem,18svh,12rem)] lg:pb-[clamp(2rem,5svh,3rem)]">
         <p data-animate="fade-up" className="eyebrow flex flex-wrap items-center gap-x-3 gap-y-2 text-olive">
           <span>Mindraze Global LLP</span>
           <span aria-hidden className="h-px w-8 bg-current" />
@@ -59,7 +59,7 @@ export function HomeHero() {
           lines={["Three Industries.", "One Vision.", { text: "Endless Possibilities.", className: "text-olive" }]}
         />
 
-        <div className="mt-10 grid gap-8 border-t border-white/10 pt-8 lg:mt-14 lg:grid-cols-12 lg:items-end">
+        <div className="mt-10 grid gap-8 border-t border-white/10 pt-8 lg:mt-[clamp(2rem,5svh,3.5rem)] lg:grid-cols-12 lg:items-end">
           <p data-animate="fade-up" style={{ "--delay": "700ms" } as CSSProperties} className="max-w-xl text-[1.05rem] leading-relaxed text-paper/70 lg:col-span-5">
             Mindraze Global brings together expertise in steel trading, solar energy solutions and digital innovation to deliver
             products and services that move businesses forward.

@@ -19,7 +19,12 @@ export function Reveal({ as: Tag = "div", children, className, delay = 0, varian
   );
 }
 
-/** Clip-path mask reveal for images and media blocks. */
+/**
+ * Clip-path mask reveal for images and media blocks. The clip lives on an inner
+ * layer: browsers measure an observed element after its own clip-path, so
+ * clipping the observed element itself to nothing means it never "enters view".
+ * `className` must make the wrapper a positioned box (absolute / relative + size).
+ */
 export function MaskReveal({
   children,
   className,
@@ -34,7 +39,7 @@ export function MaskReveal({
   const inset = { bottom: "100% 0 0 0", top: "0 0 100% 0", left: "0 100% 0 0", right: "0 0 0 100%" }[from];
   return (
     <InView data-mask="" className={className} style={{ "--delay": `${delay}ms`, "--mask-from": inset } as CSSProperties}>
-      {children}
+      <div className="mask-clip absolute inset-0">{children}</div>
     </InView>
   );
 }

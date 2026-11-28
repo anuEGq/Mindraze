@@ -44,5 +44,8 @@ next-env.d.ts
 /.data
 !.env.example
 
-# Netlify local build output
-.netlify
+
+# Cloudflare (OpenNext) build output and local secrets
+/.open-next
+/.wrangler
+.dev.vars*

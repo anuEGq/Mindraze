@@ -1,9 +1,0 @@
-# Netlify configuration. The Next.js adapter (@netlify/plugin-nextjs) is installed automatically.
-[build]
-  command = "npm run build"
-  publish = ".next"
-
-[build.environment]
-  NODE_VERSION = "22"
-  # Client preview: keep search engines away. Remove this line when Netlify hosts the live site.
-  SITE_NOINDEX = "true"
